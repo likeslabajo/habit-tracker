@@ -108,6 +108,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  String _avatarInitial() {
+    if (_name.trim().isNotEmpty) {
+      return _name.trim()[0].toUpperCase();
+    }
+    final fallback = _usernameLocal.isNotEmpty
+        ? _usernameLocal
+        : widget.username;
+    if (fallback.trim().isNotEmpty) {
+      return fallback.trim()[0].toUpperCase();
+    }
+    return '?';
+  }
+
   Widget _buildInfoRow(String label, Widget valueWidget) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -177,6 +190,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: AppColors.primary,
+                    child: Text(
+                      _avatarInitial(),
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
                   Text(
                     '@${_usernameLocal != '' ? _usernameLocal : widget.username}',
                     style: const TextStyle(
