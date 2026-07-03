@@ -9,6 +9,7 @@ import 'login_screen.dart';
 import 'add_habit_screen.dart';
 import 'reports_screen.dart';
 import 'profile_screen.dart';
+import 'notifications_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final String username;
@@ -61,11 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
         .doc(uid)
         .snapshots()
         .map((doc) {
-      final username = doc.data()?['username'] as String?;
-      return (username != null && username.isNotEmpty)
-          ? username
-          : widget.username;
-    });
+          final username = doc.data()?['username'] as String?;
+          return (username != null && username.isNotEmpty)
+              ? username
+              : widget.username;
+        });
   }
 
   Color _getColorFromHex(String hexColor) {
@@ -136,7 +137,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                   break;
                 case 3:
-                  // Notifications - no-op for now
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          NotificationsScreen(service: service),
+                    ),
+                  );
                   break;
               }
             },
