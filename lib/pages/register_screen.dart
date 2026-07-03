@@ -239,16 +239,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
       String username = _usernameController.text.trim();
       String uid = FirebaseAuth.instance.currentUser!.uid;
 
-      // Save username to Firestore
-      await FirebaseFirestore.instance.collection('users').doc(uid).set({
+      // Save profile to Firestore - 'profiles' collection, matching
+      // ProfileScreen and HomeScreen so username/name/age/country all
+      // live in one consistent place per user.
+      await FirebaseFirestore.instance.collection('profiles').doc(uid).set({
         'username': username,
         'email': _emailController.text.trim(),
+        'name': '',
+        'age': '',
+        'country': '',
         'createdAt': FieldValue.serverTimestamp(),
       });
 
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => HomeScreen(username: username)));
+      if (!mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => HomeScreen(username: username)),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       String message;
       if (e.code == 'weak-password') {
