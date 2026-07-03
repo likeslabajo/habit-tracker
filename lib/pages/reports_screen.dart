@@ -175,19 +175,19 @@ class ReportsScreen extends StatelessWidget {
                     )
                   else
                     ...habits.map((habit) {
-                      final done = logs[todayKey]?[habit?.id] == true;
+                      final done = logs[todayKey]?[habit.id] == true;
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
                           children: [
                             CircleAvatar(
-                              backgroundColor: _getColorFromHex(habit!.colorHex ?? '#000000'),
+                              backgroundColor: _getColorFromHex(habit.colorHex),
                               radius: 6,
                             ),
                             const SizedBox(width: 12),
                             Expanded(
                               child: Text(
-                                habit.name ?? '',
+                                habit.name,
                                 style: const TextStyle(
                                   fontSize: 15,
                                   color: AppColors.textDark,
@@ -207,12 +207,6 @@ class ReportsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-extension on Object? {
-  String? get name => null;
-  String? get colorHex => null;
-  get id => null;
 }
 
 class _StatCard extends StatelessWidget {
@@ -242,10 +236,10 @@ class _StatCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,
-              color: AppColors.textLight,
+              color: AppColors.textMedium,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,

@@ -4,7 +4,6 @@ import 'package:habit_tracker_project/auth.dart';
 import 'register_screen.dart';
 import 'home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -201,21 +200,14 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text.trim(),
       );
 
-      String uid = FirebaseAuth.instance.currentUser!.uid;
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
-
-      String username = 'User';
-      if (userDoc.exists && userDoc.data() != null) {
-        username =
-            (userDoc.data() as Map<String, dynamic>)['username'] ?? 'User';
-      }
-
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (_) => HomeScreen(username: username)));
+      // No Firestore lookup needed here: HomeScreen's own username stream
+      // reads live from the 'profiles' collection right after it builds,
+      // so we just pass an empty placeholder and let it take over.
+      if (!mounted) return;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const HomeScreen(username: '')),
+        (route) => false,
+      );
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
