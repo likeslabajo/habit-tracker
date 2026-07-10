@@ -255,7 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             children: [
                               Text(
-                                'No habits yet',
+                                'No habits',
                                 style: TextStyle(
                                   fontSize: 22,
                                   color: AppColors.textMedium,
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                'Add your habits to start your streak',
+                                'Add your habits',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: AppColors.textMedium,
